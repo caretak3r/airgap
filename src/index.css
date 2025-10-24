@@ -64,8 +64,8 @@ All colors MUST be HSL.
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 215 28% 25%;
-    --input: 215 28% 20%;
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
     --ring: 221 83% 53%;
     --success: 142 76% 36%;
     --success-foreground: 210 40% 98%;
@@ -94,61 +94,5 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-  }
-
-  /* Blueprint integration - override Blueprint colors to use our design system */
-  .bp5-dark {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-  }
-
-  .bp5-card {
-    background-color: hsl(var(--card)) !important;
-    color: hsl(var(--card-foreground)) !important;
-  }
-
-  .bp5-input,
-  .bp5-input-group input {
-    background-color: hsl(var(--input)) !important;
-    color: hsl(var(--foreground)) !important;
-    border-color: hsl(var(--border)) !important;
-  }
-
-  .bp5-dark .bp5-input,
-  .bp5-dark .bp5-input-group input {
-    background-color: hsl(var(--input)) !important;
-    color: hsl(var(--foreground)) !important;
-  }
-
-  .bp5-tab {
-    color: hsl(var(--muted-foreground)) !important;
-  }
-
-  .bp5-tab[aria-selected="true"] {
-    color: hsl(var(--primary)) !important;
-  }
-
-  .bp5-button {
-    color: hsl(var(--foreground)) !important;
-  }
-
-  .bp5-button.bp5-intent-primary {
-    background-color: hsl(var(--primary)) !important;
-    color: hsl(var(--primary-foreground)) !important;
-  }
-
-  .bp5-tag {
-    background-color: hsl(var(--muted)) !important;
-    color: hsl(var(--muted-foreground)) !important;
-  }
-
-  .bp5-tag.bp5-intent-primary {
-    background-color: hsl(var(--primary)) !important;
-    color: hsl(var(--primary-foreground)) !important;
-  }
-
-  .bp5-tag.bp5-intent-success {
-    background-color: hsl(var(--success)) !important;
-    color: hsl(var(--success-foreground)) !important;
   }
 }

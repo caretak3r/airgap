@@ -1,4 +1,4 @@
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card } from "@/components/ui/card";
 import { Package, Shield, Download, CheckCircle } from "lucide-react";
 
 const stats = [
@@ -32,7 +32,7 @@ export function DeploymentStats() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       {stats.map((stat) => (
-        <Card key={stat.label} elevation={Elevation.TWO} className="p-6">
+        <Card key={stat.label} className="p-6 bg-card border-border">
           <div className="flex items-center justify-between mb-2">
             <stat.icon className="w-8 h-8 text-primary" />
           </div>

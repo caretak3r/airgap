@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { ArtifactCard } from "@/components/ArtifactCard";
 import { DeploymentStats } from "@/components/DeploymentStats";
-import { Button, Card, Elevation, InputGroup, Tab, Tabs } from "@blueprintjs/core";
-import { Package } from "lucide-react";
-import { useTheme } from "next-themes";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Package, Filter } from "lucide-react";
 
 const mockArtifacts = [
   {
@@ -80,7 +82,6 @@ const mockArtifacts = [
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<"all" | "helm" | "docker">("all");
-  const { resolvedTheme } = useTheme();
 
   const filteredArtifacts = mockArtifacts.filter((artifact) => {
     const matchesSearch = artifact.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -89,9 +90,9 @@ const Index = () => {
   });
 
   return (
-    <div className={`min-h-screen ${resolvedTheme === 'dark' ? 'bp5-dark' : ''}`} style={{ backgroundColor: 'var(--background)' }}>
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border sticky top-0 z-10 backdrop-blur-sm" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
+      <header className="border-b border-border bg-card sticky top-0 z-10 backdrop-blur-sm bg-card/80">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -103,9 +104,13 @@ const Index = () => {
                 <p className="text-xs text-muted-foreground">Air-Gapped Deployment Portal</p>
               </div>
             </div>
-            <Button icon="cog" minimal>
-              Settings
-            </Button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Button variant="outline" size="sm">
+                <Filter className="w-4 h-4 mr-2" />
+                Settings
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -116,64 +121,42 @@ const Index = () => {
 
         {/* Search and Filters */}
         <div className="mb-6">
-          <InputGroup
-            leftIcon="search"
-            large
-            placeholder="Search artifacts..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <div className="flex gap-4 items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder="Search artifacts..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Tabs */}
-        <Tabs
-          id="artifact-tabs"
-          selectedTabId={filterType}
-          onChange={(newTabId) => setFilterType(newTabId as typeof filterType)}
-          large
-        >
-          <Tab id="all" title="All Artifacts" panel={
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <Tabs value={filterType} onValueChange={(v) => setFilterType(v as typeof filterType)}>
+          <TabsList>
+            <TabsTrigger value="all">All Artifacts</TabsTrigger>
+            <TabsTrigger value="helm">Helm Charts</TabsTrigger>
+            <TabsTrigger value="docker">Docker Images</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value={filterType} className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredArtifacts.map((artifact) => (
                 <ArtifactCard key={artifact.id} artifact={artifact} />
               ))}
-              {filteredArtifacts.length === 0 && (
-                <div className="col-span-full text-center py-12">
-                  <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-foreground mb-2">No artifacts found</h3>
-                  <p className="text-muted-foreground">Try adjusting your search or filters</p>
-                </div>
-              )}
             </div>
-          } />
-          <Tab id="helm" title="Helm Charts" panel={
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-              {filteredArtifacts.map((artifact) => (
-                <ArtifactCard key={artifact.id} artifact={artifact} />
-              ))}
-              {filteredArtifacts.length === 0 && (
-                <div className="col-span-full text-center py-12">
-                  <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-foreground mb-2">No artifacts found</h3>
-                  <p className="text-muted-foreground">Try adjusting your search or filters</p>
-                </div>
-              )}
-            </div>
-          } />
-          <Tab id="docker" title="Docker Images" panel={
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-              {filteredArtifacts.map((artifact) => (
-                <ArtifactCard key={artifact.id} artifact={artifact} />
-              ))}
-              {filteredArtifacts.length === 0 && (
-                <div className="col-span-full text-center py-12">
-                  <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-foreground mb-2">No artifacts found</h3>
-                  <p className="text-muted-foreground">Try adjusting your search or filters</p>
-                </div>
-              )}
-            </div>
-          } />
+
+            {filteredArtifacts.length === 0 && (
+              <div className="text-center py-12">
+                <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">No artifacts found</h3>
+                <p className="text-muted-foreground">Try adjusting your search or filters</p>
+              </div>
+            )}
+          </TabsContent>
         </Tabs>
       </main>
     </div>
