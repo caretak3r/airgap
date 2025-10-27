@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import Home from "./pages/Home";
 import AirGapDeploy from "./pages/AirGapDeploy";
+import AirGapWizard from "./pages/AirGapWizard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/airgap-deploy" element={<AirGapDeploy />} />
+            <Route path="/airgap-wizard" element={<AirGapWizard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

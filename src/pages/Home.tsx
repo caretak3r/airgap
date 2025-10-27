@@ -2,15 +2,24 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Package, Shield, Database, Network, ChevronRight, Layers } from "lucide-react";
+import { Package, Shield, Database, Network, ChevronRight, Layers, Wand2 } from "lucide-react";
 
 const apps = [
   {
-    id: "download-center",
-    name: "Download Center",
-    description: "Mirror and download artifacts from our registries for air-gapped deployments",
+    id: "airgap-deploy",
+    name: "AirGap Deploy",
+    description: "Secure air-gapped deployment portal for managing artifacts, helm charts, and docker images",
     icon: Package,
     to: "/airgap-deploy",
+    gradient: "from-primary/20 to-primary/5",
+    available: true,
+  },
+  {
+    id: "airgap-wizard",
+    name: "Air Gapped Deployment Wizard",
+    description: "Guided wizard to mirror and download artifacts from our registries for air-gapped deployments",
+    icon: Wand2,
+    to: "/airgap-wizard",
     gradient: "from-primary/20 to-primary/5",
     available: true,
   },
