@@ -17,7 +17,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename="/astro-cipher-hub">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/airgap-deploy" element={<AirGapDeploy />} />
