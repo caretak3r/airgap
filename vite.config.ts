@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  base: mode === "production" ? '/astro-cipher-hub/' : '/', // Only use subdirectory in production
+  base: mode === "production" ? '/airgap/' : '/', // Deploy to silent.engineer/airgap
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
