@@ -1,10 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Download, Shield, FileCheck, Package, AlertTriangle, Lock, Eye } from "lucide-react";
+import { Download, Shield, FileCheck, Package, AlertTriangle, Lock, Eye, Search } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { SBOMDialog } from "@/components/SBOMDialog";
+import { ArtifactInspector } from "@/components/ArtifactInspector";
 
 interface Artifact {
   id: string;
@@ -29,6 +30,7 @@ interface Artifact {
 export function ArtifactCard({ artifact }: { artifact: Artifact }) {
   const [downloading, setDownloading] = useState(false);
   const [sbomOpen, setSbomOpen] = useState(false);
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   const { toast } = useToast();
 
   const totalVulnerabilities = artifact.vulnerabilities
@@ -50,21 +52,33 @@ export function ArtifactCard({ artifact }: { artifact: Artifact }) {
   };
 
   return (
-    <Card className="p-6 hover:shadow-lg transition-shadow border-border bg-card">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Package className="w-6 h-6 text-primary" />
+    <>
+      <Card className="group p-6 hover:shadow-lg transition-all duration-300 border-border bg-card hover:border-primary/50 hover:scale-[1.02]">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <Package className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-card-foreground">{artifact.name}</h3>
+              <p className="text-sm text-muted-foreground">Version {artifact.version}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-card-foreground">{artifact.name}</h3>
-            <p className="text-sm text-muted-foreground">Version {artifact.version}</p>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setInspectorOpen(true)}
+              className="opacity-0 group-hover:opacity-100 transition-opacity"
+              title="Inspect Artifact"
+            >
+              <Search className="w-4 h-4" />
+            </Button>
+            <Badge variant={artifact.type === "helm" ? "default" : "secondary"}>
+              {artifact.type === "helm" ? "Helm Chart" : "Docker Image"}
+            </Badge>
           </div>
         </div>
-        <Badge variant={artifact.type === "helm" ? "default" : "secondary"}>
-          {artifact.type === "helm" ? "Helm Chart" : "Docker Image"}
-        </Badge>
-      </div>
 
       <div className="space-y-2 mb-4">
         <div className="flex items-center gap-2 text-sm">
@@ -151,5 +165,12 @@ export function ArtifactCard({ artifact }: { artifact: Artifact }) {
         artifact={{ name: artifact.name, version: artifact.version }}
       />
     </Card>
+
+    <ArtifactInspector
+      isOpen={inspectorOpen}
+      onClose={() => setInspectorOpen(false)}
+      artifact={artifact}
+    />
+    </>
   );
 }

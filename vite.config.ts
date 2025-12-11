@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  base: '/astro-cipher-hub/', // GitHub Pages subdirectory path
+  base: mode === "production" ? '/astro-cipher-hub/' : '/', // Only use subdirectory in production
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {
